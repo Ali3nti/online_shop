@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     public function all_products(Request $request)
     {
-        $all_products = DB::table('product')
+        $all_products = DB::table('products')
             ->get();
 
         if ($all_products) {
@@ -34,8 +34,8 @@ class ProductController extends Controller
         $cat_products = DB::table('products')
             ->where("category_id", $request->id)
             ->get();
-            
-        if (count($cat_products)!== 0) {
+
+        if (count($cat_products) !== 0) {
 
             return $message = array(
                 'status' => 1,
@@ -50,24 +50,39 @@ class ProductController extends Controller
             );
         }
     }
-    
+
     public function add_product(Request $request)
     {
-        $cat_products = DB::table('products')
-            ->where("category_id", $request->id)
-            ->get();
-            
-        if (count($cat_products)!== 0) {
+
+        $addProduct = DB::table('products')
+            ->insertGetId([
+                'name'=> $request->name,
+                'category_id'=> $request->categoryId,
+                'price'=> $request->price,
+                'image'=> $request->image,
+                'description'=> $request->description,
+                'stock_quantity'=> $request->stockQuantity,
+                'unit'=> $request->unit,
+                'brand'=> $request->brand,
+                'is_active'=> $request->isActive,
+                'weight'=> $request->weight,
+                'dimensions'=> $request->dimensions,
+                'color'=> $request->color,
+                'warranty'=> $request->warranty,
+                'discount'=> $request->discount,
+            ]);
+
+        if ($addProduct) {
 
             return $message = array(
                 'status' => 1,
-                'message' => 'all product that have same category id',
-                'data' => $cat_products
+                'message' => 'ok',
+                'data' => $addProduct
             );
         } else {
             return $message = array(
                 'status' => 0,
-                'message' => 'no product exist for this category',
+                'message' => 'no',
                 'data' => null
             );
         }
