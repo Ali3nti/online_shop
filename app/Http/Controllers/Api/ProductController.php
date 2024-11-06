@@ -53,26 +53,59 @@ class ProductController extends Controller
 
     public function add_product(Request $request)
     {
-
         $addProduct = DB::table('products')
             ->insertGetId([
-                'name'=> $request->name,
-                'category_id'=> $request->categoryId,
-                'price'=> $request->price,
-                'image'=> $request->image,
-                'description'=> $request->description,
-                'stock_quantity'=> $request->stockQuantity,
-                'unit'=> $request->unit,
-                'brand'=> $request->brand,
-                'is_active'=> $request->isActive,
-                'weight'=> $request->weight,
-                'dimensions'=> $request->dimensions,
-                'color'=> $request->color,
-                'warranty'=> $request->warranty,
-                'discount'=> $request->discount,
+                'name' => $request->name,
+                'category_id' => $request->categoryId,
+                'price' => $request->price,
+                'description' => $request->description,
+                'stock_quantity' => $request->stockQuantity,
+                'unit' => $request->unit,
+                'brand' => $request->brand,
+                'is_active' => $request->isActive,
+                'weight' => $request->weight,
+                'dimensions' => $request->dimensions,
+                'color' => $request->color,
+                'warranty' => $request->warranty,
+                'discount' => $request->discount,
             ]);
 
-        if ($addProduct) {
+        $images = $request->images;
+
+        $filePath = "";
+        $path = 'images/products/' . $addProduct . '/';
+        $formatType = '.jpg';
+
+        if (!is_dir($path)) {
+            mkdir($path, 0777, true);
+        }
+
+
+        if ($images != null) {
+            foreach ($images as $image) {
+                if ($image != null) {
+                    $counter = '(1)';
+                    $fileName = $addProduct .  $counter . $formatType;
+                    for ($i = 2; file_exists($path . $fileName); $i++) {
+                        $counter = '(' . $i . ')';
+                        $fileName = $addProduct . $counter . $formatType;
+                    }
+
+                    $filePath = $path . $fileName;
+                    $res = file_put_contents($filePath, base64_decode($image));
+                } else {
+                    $filePath = 'N/A';
+                }
+            }
+        } else {
+            $filePath = 'N/A';
+        }
+
+        $result = DB::table('products')
+        ->where('id',$addProduct)
+        ->update(['image' => $path]);
+
+        if ($result) {
 
             return $message = array(
                 'status' => 1,
