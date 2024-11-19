@@ -31,7 +31,7 @@ class ProductController extends Controller
     
     public function product(Request $request)
     {
-        $product = DB::table('product')
+        $product = DB::table('products')
             ->where("id",$request->id)
             ->first();
 
