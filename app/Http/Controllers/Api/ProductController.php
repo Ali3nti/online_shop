@@ -27,6 +27,28 @@ class ProductController extends Controller
                 'data' => null
             );
         }
+    }   
+    
+    public function product(Request $request)
+    {
+        $product = DB::table('product')
+            ->where("id",$request->id)
+            ->first();
+
+        if ($product) {
+
+            return $message = array(
+                'status' => 1,
+                'message' => 'product json returned',
+                'data' => $product
+            );
+        } else {
+            return $message = array(
+                'status' => 0,
+                'message' => 'error in find product',
+                'data' => null
+            );
+        }
     }
 
     public function cat_products(Request $request)

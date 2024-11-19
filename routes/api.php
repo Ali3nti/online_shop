@@ -25,6 +25,7 @@ Route::namespace("Api")->prefix('')->group(function () {
      * 
      */
     Route::get('all_products',        [ProductController::class,          'all_products']);
+    Route::get('product',             [ProductController::class,          'product']);
     Route::get('cat_products',        [ProductController::class,          'cat_products']);
     Route::post('add_product',        [ProductController::class,          'add_product']);
 
