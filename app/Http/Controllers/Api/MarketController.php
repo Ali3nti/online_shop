@@ -10,7 +10,7 @@ class MarketController extends Controller
 {
     public function all_markets(Request $request)
     {
-        $all_markets = DB::table('market')
+        $all_markets = DB::table('markets')
             ->get();
 
         return $message = array(
