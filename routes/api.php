@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\MarketController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\UserController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -35,8 +36,10 @@ Route::namespace("Api")->prefix('')->group(function () {
      */
     Route::get('all_categories',        [CategoryController::class,          'all_categories']);
 
-    
-
-
-
+    /*
+     * Category Controller Routing
+     * 
+     */
+    Route::post('user',        [UserController::class,          'user'  ]);
+    Route::post('signUp',      [UserController::class,          'signUp']);
 });
