@@ -49,7 +49,7 @@ class UserController extends Controller
         $user = DB::table('users')
             ->where('phone',$phoneNumber)
             ->first();
-        if($user["code"] ==$code){
+        if($user->otp ==$code){
             return $message = array(
             'status' => 1,
             'message' => 'User verified seccessfully',
