@@ -41,5 +41,8 @@ Route::namespace("Api")->prefix('')->group(function () {
      * 
      */
     Route::post('user',        [UserController::class,          'user'  ]);
-    Route::post('signUp',      [UserController::class,          'signUp']);
+   Route::post('sign_up',      [UserController::class,          'signUp']); 
+    Route::post('sign_in',      [UserController::class,          'signIn']);
+    Route::post('verify_number',      [UserController::class,          'verifyNumber']);
+
 });

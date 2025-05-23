@@ -21,6 +21,47 @@ class UserController extends Controller
         );
     }
     
+        public function signIn(Request $request)
+    {
+        $phoneNumber = $request->phone_number;
+
+        $user = DB::table('users')
+            ->where('phone',$phoneNumber)
+            ->first();
+        if($user){
+            return $message = array(
+            'status' => 1,
+            'message' => 'User data returned seccessfully',
+            'data' => $user
+        );
+        }else{
+            return $message = array(
+            'status' => 2,
+            'message' => 'User not exist but you can sign up'
+        );
+        }
+    }
+           public function verifyNumber(Request $request)
+    {
+        $phoneNumber = $request->phone_number;
+        $code = $request->code;
+
+        $user = DB::table('users')
+            ->where('phone',$phoneNumber)
+            ->first();
+        if($user["code"] ==$code){
+            return $message = array(
+            'status' => 1,
+            'message' => 'User verified seccessfully',
+            'data' => $user
+        );
+        }else{
+            return $message = array(
+            'status' => 0,
+            'message' => 'User not verified'
+        );
+        }
+    }
     public function signUp(Request $request)
     {
         $phoneNumber = $request->phone;
